@@ -1,0 +1,12 @@
+version: "3"
+name: nextcloud
+
+services:
+  app:
+    build:
+      context: ${PWD}
+      dockerfile: Dockerfile
+      tags:
+        - infra7/nextcloud:27-fpm-alpine
+        - infra7/nextcloud:fpm-alpine
+    image: infra7/nextcloud:latest
