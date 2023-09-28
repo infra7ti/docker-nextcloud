@@ -1,21 +1,26 @@
+# Dockerfile for Nextcloud
+
 FROM nextcloud:fpm-alpine AS base
 
 # Security updates
+ARG TARGET_OS_VERSION=${TARGET_OS_VERSION}
+ARG SEC_EDGE=${SEC_EDGE:-false}
+ARG SEC_UPDATES=${SEC_UPDATES:-}
 RUN set -ex; \
-  sed -i 's|v3\.\d*|edge|' /etc/apk/repositories && \
-  export SEC_UPDATES="\
-    libjpeg-turbo=3.0.0-r1 \
-    libraw=0.21.1-r2 \
-  "; \
-  apk -U add \
-    --no-cache \
-    ${SEC_UPDATES} && \
-  sed -i 's|edge|v3.18|' /etc/apk/repositories 
+  if [ "${SEC_EDGE:-false}" == "true" ]; then \
+    sed -i "s|v\d+\.\d+\..*|edge|" /etc/apk/repositories; \
+  fi; \
+  apk -U add --no-cache $(echo -e ${SEC_UPDATES}); \
+  if [ "${SEC_EDGE:-false}" == "true" ]; then \
+    sed -i "s|edge|v${TARGET_OS_VERSION}|" /etc/apk/repositories; \
+  fi;
 
+# -- Main image ----------------------------------------------------------------
 
 FROM scratch
 
-ENV NEXTCLOUD_VERSION 27.0.2
+ARG VERSION
+ENV NEXTCLOUD_VERSION ${VERSION}
 ENV PHP_MEMORY_LIMIT 512M
 ENV PHP_UPLOAD_LIMIT 512M
 
@@ -24,3 +29,5 @@ COPY --from=base / /
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm"]
+
+# --

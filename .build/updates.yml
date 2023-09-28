@@ -1,0 +1,8 @@
+services:
+  alpine:
+    build:
+      args:
+        SEC_EDGE: true
+        SEC_UPDATES: |-
+          cups=2.4.7-r0
+          cups-libs=2.4.7-r0

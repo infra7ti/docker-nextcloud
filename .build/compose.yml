@@ -1,0 +1,28 @@
+version: "3"
+name: nextcloud
+
+services:
+  alpine:
+    build:
+      args:
+        VERSION: ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}
+      context: ${PWD}
+      dockerfile: ${TARGET_OS}/Dockerfile
+      platforms:
+        - "linux/amd64"
+        - "linux/arm64"        
+      tags:
+        - infra7/nextcloud:${TARGET_OS}
+        - infra7/nextcloud:${TARGET_VARIANT}-${TARGET_OS}
+        - infra7/nextcloud:${VERSION_MAJOR}
+        - infra7/nextcloud:${VERSION_MAJOR}-${TARGET_OS}
+        - infra7/nextcloud:${VERSION_MAJOR}-${TARGET_VARIANT}-${TARGET_OS}
+        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR} 
+        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}-${TARGET_OS}
+        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}-${TARGET_VARIANT}-${TARGET_OS}
+        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}
+        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-${TARGET_OS}
+        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-${TARGET_VARIANT}-${TARGET_OS}
+        - infra7/nextcloud:latest
+    image: infra7/nextcloud
+    network_mode: host
