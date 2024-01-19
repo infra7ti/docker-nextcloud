@@ -4,5 +4,6 @@ services:
       args:
         SEC_EDGE: true
         SEC_UPDATES: |-
-          cups=2.4.7-r0
-          cups-libs=2.4.7-r0
+          libde265=1.0.15-r0
+          sqlite=3.41.2-r3
+          gnutls=3.8.3-r0

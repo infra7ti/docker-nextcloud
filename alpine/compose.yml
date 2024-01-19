@@ -7,6 +7,6 @@ services:
       context: ${PWD}
       dockerfile: Dockerfile
       tags:
-        - infra7/nextcloud:27-fpm-alpine
+        - infra7/nextcloud:${VERSION_MAJOR}-fpm-alpine
         - infra7/nextcloud:fpm-alpine
     image: infra7/nextcloud:latest

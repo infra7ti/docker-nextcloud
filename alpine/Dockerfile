@@ -1,6 +1,7 @@
 # Dockerfile for Nextcloud
 
-FROM nextcloud:fpm-alpine AS base
+ARG VERSION_MAJOR=${VERSION_MAJOR}
+FROM nextcloud:${VERSION_MAJOR}-fpm-alpine AS base
 
 # Security updates
 ARG TARGET_OS_VERSION=${TARGET_OS_VERSION}
