@@ -2,8 +2,5 @@ services:
   alpine:
     build:
       args:
-        SEC_EDGE: true
+        SEC_EDGE: false
         SEC_UPDATES: |-
-          libde265=1.0.15-r0
-          sqlite=3.41.2-r3
-          gnutls=3.8.3-r0
