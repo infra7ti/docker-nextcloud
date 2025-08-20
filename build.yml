@@ -1,13 +1,11 @@
-name: nextcloud
-
 services:
-  alpine:
+  builds:
     build:
       args:
         VERSION: ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}
         VERSION_MAJOR: ${VERSION_MAJOR}
       context: ${PWD}
-      dockerfile: ${TARGET_OS}/Dockerfile
+      dockerfile: targets/${TARGET_OS}/Dockerfile
       platforms:
         - "linux/amd64"
         - "linux/arm64"        
