@@ -8,7 +8,7 @@ ver=$(echo ${src} | sed "s/<\/*strong>//g")
 cat <<EOF > ${PWD}/.env
 # Default target OS and variant
 TARGET_OS=alpine
-TARGET_OS_VERSION=3.21
+TARGET_OS_VERSION=3.22
 TARGET_VARIANT=fpm
 
 # Nextcloud versioning
