@@ -1,26 +1,39 @@
+x-build-base: &build-base
+  args:
+    VERSION: ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}
+    VERSION_MAJOR: ${VERSION_MAJOR}
+    SEC_EDGE: ${SEC_EDGE:-false}
+    SEC_UPDATES: ${SEC_UPDATES:-}
+  context: ${PWD}
+  dockerfile: Dockerfile
+  platforms:
+    - "linux/amd64"
+    - "linux/arm64"
+  tags:
+    - infra7/nextcloud:${VERSION_MAJOR}
+    - infra7/nextcloud:${VERSION_MAJOR}-${TARGET_OS}
+    - infra7/nextcloud:${VERSION_MAJOR}-${TARGET_VARIANT}-${TARGET_OS}
+    - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}
+    - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}-${TARGET_OS}
+    - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}-${TARGET_VARIANT}-${TARGET_OS}
+    - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}
+    - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-${TARGET_OS}
+    - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-${TARGET_VARIANT}-${TARGET_OS}
+
 services:
   builds:
+    profiles: ["build"]
     build:
-      args:
-        VERSION: ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}
-        VERSION_MAJOR: ${VERSION_MAJOR}
-      context: ${PWD}
-      dockerfile: targets/${TARGET_OS}/Dockerfile
-      platforms:
-        - "linux/amd64"
-        - "linux/arm64"        
+      <<: *build-base
+    image: infra7/nextcloud
+    network_mode: host
+
+  builds-latest:
+    profiles: ["build-latest"]
+    extends:
+      service: builds
+    build:
       tags:
         - infra7/nextcloud:${TARGET_OS}
         - infra7/nextcloud:${TARGET_VARIANT}-${TARGET_OS}
-        - infra7/nextcloud:${VERSION_MAJOR}
-        - infra7/nextcloud:${VERSION_MAJOR}-${TARGET_OS}
-        - infra7/nextcloud:${VERSION_MAJOR}-${TARGET_VARIANT}-${TARGET_OS}
-        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR} 
-        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}-${TARGET_OS}
-        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}-${TARGET_VARIANT}-${TARGET_OS}
-        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}
-        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-${TARGET_OS}
-        - infra7/nextcloud:${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-${TARGET_VARIANT}-${TARGET_OS}
         - infra7/nextcloud:latest
-    image: infra7/nextcloud
-    network_mode: host

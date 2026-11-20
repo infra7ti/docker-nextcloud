@@ -1,6 +1,0 @@
-services:
-  builds:
-    build:
-      args:
-        SEC_EDGE: false
-        SEC_UPDATES: |-
